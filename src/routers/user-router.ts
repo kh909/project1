@@ -34,7 +34,7 @@ async (request: Request, response: Response) => {
 
 });
 
-//Test \/\/\/\/
+// patching /user
 
 userRouter.patch('',
     async (request: Request, response: Response) => {
@@ -42,7 +42,7 @@ userRouter.patch('',
         
         const patchedUser: User = await userService.patchCoalesce(patch);
 
-        // 
+        // maybe use a try catch
         if (patchedUser.userId) {
             response.json(patchedUser);
         } else {

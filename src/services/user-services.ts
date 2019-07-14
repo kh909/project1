@@ -23,7 +23,12 @@ export function createInventory(inventory: Inventory):
         });
 }
 */
-
+export async function validateUser(username:string, password: string) {
+    const info = await db.query(`select * FROM "User" where username = $1 and password = $2;`,
+    [username, password]);
+    return info.rows[0];
+    
+}
 //returns the user row with matching id number
 // Promise returns the User array
 export async function getUserById(id: number): Promise<User[]> {
@@ -59,3 +64,4 @@ role = COALESCE($6, role) WHERE userId =$7 \ RETURNING username, password, first
         return result.rows[0];
     }
 }
+

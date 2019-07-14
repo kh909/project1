@@ -1,15 +1,16 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import userRouter from './routers/user-router';
-
+import checkToken from './util/validate-token';
 
 import { closePool } from './util/pg-connector';
+import loginRouter from './routers/login-router';
 
 //Setup express
 const app = express();
 
 // set up port
-const port = process.env.port || 3000;
+const port = process.env.port || 3001;
 
 // close the pool when the app shuts down
 process.on('SIGINT', () => {
@@ -20,8 +21,9 @@ process.on('SIGINT', () => {
 app.use(bodyParser.json());
 
 //Register routers
-app.use('/users', userRouter);
-
+//checkToken validates the user credentials
+app.use('/users', checkToken, userRouter);
+app.use('/login', loginRouter);
 
 //Open Port
 app.listen(port, () => {
