@@ -42,6 +42,7 @@ userRouter.patch('',
         
         const patchedUser: User = await userService.patchCoalesce(patch);
 
+        // 
         if (patchedUser.userId) {
             response.json(patchedUser);
         } else {

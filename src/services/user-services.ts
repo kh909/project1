@@ -24,22 +24,28 @@ export function createInventory(inventory: Inventory):
 }
 */
 
-//returns the user row as an array
-
+//returns the user row with matching id number
+// Promise returns the User array
 export async function getUserById(id: number): Promise<User[]> {
+    //await pauses execution of query until promise completed
     const result = await db.query(`SELECT * FROM "User" WHERE userid = $1`, [id]);
     return result.rows;
 }
 
 //returns all of the users in the table
+//promise returns user array
 export async function getUser(): Promise<User[]> {
+    // await pauses execution of query until promise is completed
     const result = await db.query(`SELECT * FROM "User"`);
     return result.rows;
 }
 
-//testing \/\/\/\/
-//use "" to rename
+// use "" to rename
+
+// used to update the rows in the database.
+// promises a user
 export async function patchCoalesce(patch: User) {
+    // await pauses execution of query until promise is completed
     const result = await db.query(`UPDATE "User" SET username = COALESCE($1, username), \
 password = COALESCE($2, password), \ first_name = COALESCE($3, first_name), \ 
 last_name = COALESCE($4, last_name), \ email = COALESCE($5, email), \ 
