@@ -1,11 +1,12 @@
 import { Pool } from 'pg';
 
+// information about the database
 const db = new Pool({
-    database: 'postgres',
+    database: 'project0',
     host: 'localhost',
     password: 'password',
     port: 5432,
-    user: 'login_user',
+    user: 'postgres',
 });
 
 export function closePool() {
