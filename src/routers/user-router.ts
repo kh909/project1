@@ -22,8 +22,9 @@ userRouter.get('/:id',
 
 //get /users
 userRouter.get('',
-async (request: Request, response: Response) => {
-    
+// any to receive the token
+async (request: any, response: Response) => {
+    console.log(request.token);
     const user = await userService.getUser();
 
     if (user) {

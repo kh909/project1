@@ -12,7 +12,7 @@ let checkToken = (req, res, next) => {
           message: 'You are not authorized for this operation'
         });
       } else {
-        req.decoded = decodedtoken;
+        req.token = decodedtoken;
         next();
       }
     });
