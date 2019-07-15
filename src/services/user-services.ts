@@ -23,8 +23,10 @@ export function createInventory(inventory: Inventory):
         });
 }
 */
+
+// promises user information
 export async function validateUser(username:string, password: string) {
-    const info = await db.query(`select * FROM "User" where username = $1 and password = $2;`,
+    const info = await db.query(`select * FROM "User" WHERE username = $1 and password = $2;`,
     [username, password]);
     return info.rows[0];
     
