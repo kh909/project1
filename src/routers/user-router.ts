@@ -24,7 +24,7 @@ userRouter.get('/:id',
 userRouter.get('',
 // any to receive the token
 async (request: any, response: Response) => {
-    console.log(request.token);
+   // console.log(request.token);
     const user = await userService.getUser();
 
     if (user) {
@@ -36,7 +36,7 @@ async (request: any, response: Response) => {
 });
 
 // patching /user
-
+// request a user
 userRouter.patch('',
     async (request: Request, response: Response) => {
         const patch: User = request.body;

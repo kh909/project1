@@ -1,29 +1,6 @@
 import User from '../models/user';
 import db from '../util/pg-connector';
 
-/*
-export function createInventory(inventory: Inventory):
-    Promise<Inventory[]> {
-    // enforce business rules
-    if (!inventory.itemName) {
-        console.warn('Inventory item requires name');
-    }
-
-    // This operation will send a query to the database,
-    // which will then return a new promise that includes
-    // only the row data
-
-    return db.query(`INSERT INTO inventory (item_name, quantity)
-    VALUES ($1, $2) RETURNING id, item_name, quantity`,
-        [inventory.itemName, inventory.quantity])
-        .then((data) => {
-            return data.rows;
-        }).catch((err) => {
-            return [];
-        });
-}
-*/
-
 // promises user information
 export async function validateUser(username:string, password: string) {
     const info = await db.query(`select * FROM "User" WHERE username = $1 and password = $2;`,

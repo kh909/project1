@@ -10,11 +10,11 @@ import loginRouter from './routers/login-router';
 const app = express();
 
 // set up port
-const port = process.env.port || 3003;
+const port = process.env.port || 3000;
 
 // close the pool when the app shuts down
-process.on('SIGINT', () => {
-    closePool();
+process.on('SIGINT', async () => {
+    await closePool();
 });
 
 // Register middleware
