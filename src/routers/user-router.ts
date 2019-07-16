@@ -14,16 +14,6 @@ userRouter.get('/:id',
 
         const user = await userService.getUserById(id);
 
-        /*
-        try{
-            if (user) {
-                response.status(200).json(user);
-            } 
-        }
-        catch {
-            response.sendStatus(404);
-        }
-        */
             if (user) {
                 response.status(200).json(user);
             } else {
@@ -39,8 +29,8 @@ async (request: any, response: Response) => {
    //console.log(request.token);
    let testToken = request.token.role;
 
-   // outputs the role number
-  // console.log(testToken);
+        // outputs the role number
+        // console.log(testToken);
 //if user is admin
    if (testToken == 1) {
         const user = await userService.getUser();
@@ -62,6 +52,7 @@ async (request: any, response: Response) => {
 userRouter.patch('',
     async (request: Request, response: Response) => {
         const patch: User = request.body;
+        //store the role
         let testToken = request.token.role;
 
         //if user is admin
