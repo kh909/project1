@@ -24,7 +24,7 @@ userRouter.get('/:id',
 
 //get /users
 userRouter.get('',
-// any to receive the token
+// any to receive the token 
 async (request: any, response: Response) => {
    //console.log(request.token);
    let testToken = request.token.role;
