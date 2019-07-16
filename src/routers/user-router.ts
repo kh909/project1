@@ -4,6 +4,8 @@ import * as userService from '../services/user-services';
 
 const userRouter = express.Router();
 
+     
+
 //get /users/idnumber
 userRouter.get('/:id',
     async (request: Request, response: Response) => {
@@ -12,11 +14,21 @@ userRouter.get('/:id',
 
         const user = await userService.getUserById(id);
 
-        if (user) {
-            response.status(200).json(user);
-        } else {
+        /*
+        try{
+            if (user) {
+                response.status(200).json(user);
+            } 
+        }
+        catch {
             response.sendStatus(404);
         }
+        */
+            if (user) {
+                response.status(200).json(user);
+            } else {
+                response.sendStatus(404);
+            }
 
     });
 
@@ -24,15 +36,25 @@ userRouter.get('/:id',
 userRouter.get('',
 // any to receive the token
 async (request: any, response: Response) => {
-   // console.log(request.token);
-    const user = await userService.getUser();
+   //console.log(request.token);
+   let testToken = request.token.role;
 
-    if (user) {
-        response.status(200).json(user);
-    } else {
-        response.sendStatus(404);
+   // outputs the role number
+  // console.log(testToken);
+//if user is admin
+   if (testToken == 1) {
+        const user = await userService.getUser();
+
+        if (user) {
+            response.status(200).json(user);
+        } 
     }
-
+    //if user us not admin
+    else {
+        response.status(401).json({message: 'You are not authorized for this operation'});
+    }
+    
+    
 });
 
 // patching /user
@@ -40,16 +62,25 @@ async (request: any, response: Response) => {
 userRouter.patch('',
     async (request: Request, response: Response) => {
         const patch: User = request.body;
-        
-        const patchedUser: User = await userService.patchCoalesce(patch);
+        let testToken = request.token.role;
+
+        //if user is admin
+             if( testToken == 1){
+                 const patchedUser: User = await userService.patchCoalesce(patch);
+                 if (patchedUser.userId) {
+                    response.json(patchedUser);
+                } else {
+                response.sendStatus(200);
+                }
+             }
+        //if user is not admin
+        else {
+            response.status(401).json({message: 'You are not authorized for this operation'});
+    }
 
         // maybe use a try catch
-        if (patchedUser.userId) {
-            response.json(patchedUser);
-        } else {
-
-        }
-        response.sendStatus(200);
+       
+        
     });
 
 export default userRouter;
