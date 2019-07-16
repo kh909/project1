@@ -23,7 +23,7 @@ reimbursementRouter.get('/:id',
     });
 
 //get /users
-reimbursementRouter.get('',
+reimbursementRouter.get('/status/:id',
 // any to receive the token 
 async (request: any, response: Response) => {
    //console.log(request.token);
