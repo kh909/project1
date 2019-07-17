@@ -4,7 +4,40 @@ import * as reimbursementService from '../services/reimbursement-services';
 
 const reimbursementRouter = express.Router();
 
-     
+
+// reimbursementRouter.post('',
+//     (request: Request, response: Response) => {
+//         const reimburse = new reimbursementRouter(request.body);
+
+//         console.log(reimburse);
+
+//         reimbursementService.postReimbursement(reimburse)
+
+//         .then((rows) => {
+//             if(rows.length > 0) {
+//                 response.status(201).json(rows[0]);
+//             } else {
+//                 response.sendStatus(400);
+//             }
+//         });
+        
+//     });
+
+reimbursementRouter.post('',
+    (request: Request, response: Response) => {
+        const reimbursement = new Reimbursement(request.body);
+
+        reimbursementService.createReimbursement(reimbursement)
+            // This handler receives the row data
+            // from the service method
+            .then((rows) => {
+                if (rows.length > 0) {
+                    response.status(201).json(rows[0]);
+                } else {
+                    response.sendStatus(400);
+                }
+            });
+    });
 
 //get /users/idnumber
 reimbursementRouter.get('/:id',
@@ -22,8 +55,8 @@ reimbursementRouter.get('/:id',
 
     });
 
-//get /users
-reimbursementRouter.get('/status/:id',
+//get /status/idnumber
+reimbursementRouter.get('',
 // any to receive the token 
 async (request: any, response: Response) => {
    //console.log(request.token);

@@ -2,11 +2,12 @@ export default class Reimbursement {
     public reimbursementId: number;
     public author: number;
     public amount: number;
-    public dateSumbmitted: Date;
+    public dateSubmitted: Date;
     public dateResolved: Date;
     public resolver: number;
     public status: number;
     public type: number;
+    public description: string;
 
  
     constructor(obj) {
@@ -14,14 +15,15 @@ export default class Reimbursement {
             return;
         }
 
-        this.reimbursementId = obj.id;
+        this.reimbursementId = obj.reimbursementid;
         this.author = obj.author;
         this.amount = obj.amount;
-        this.dateSumbmitted = obj.dateSumbmitted;
-        this.dateResolved = obj.dateResolved;
+        this.dateSubmitted = obj.date_submitted;
+        this.dateResolved = obj.date_resolved;
         this.resolver = obj.resolver;
         this.status = obj.status;
         this.type = obj.type;
+        this.description = obj.description;
     }
   
 }

@@ -15,7 +15,7 @@ export default class User {
 
         this.userId = obj.id;
         this.username = obj.username;
-        this.password = obj.pasword;
+        this.password = obj.password;
         this.firstName = obj.firstName;
         this.lastName = obj.lastName;
         this.email = obj.email;
