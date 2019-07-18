@@ -9,15 +9,14 @@ export async function getReimbursementByAuthorId(id: number): Promise<Reimbursem
     return result.rows;
 }
 
-export async function getReimbursement(): Promise<Reimbursement[]> {
+export async function getReimbursementByStatusId(id: number): Promise<Reimbursement[]> {
     //await pauses execution of query until promise completed
-    const result = await db.query(`SELECT * FROM "Reimbursement" `);
-
-    console.log(result);
+    const result = await db.query(`SELECT * FROM "Reimbursement" WHERE status = $1`, [id]);
    
-    return result.rows;
-    
+    return result.rows;   
 }
+
+
 
 
 //promise returns reimbursement
@@ -26,10 +25,10 @@ export async function getReimbursement(): Promise<Reimbursement[]> {
 export function createReimbursement(reimbursement: Reimbursement):
     Promise<Reimbursement[]> {
 
-    return db.query(`INSERT INTO \"Reimbursement\" (author, amount, date_submitted, date_resolved,
+    return db.query(`INSERT INTO "Reimbursement" (author, amount, date_submitted, date_resolved,
         resolver, status, type, description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING reimbursementid, author, amount, date_submitted, date_resolved,
-        resolver, status, type, description,`,
+        resolver, status, type, description`,
         [reimbursement.author, reimbursement.amount, reimbursement.dateSubmitted, reimbursement.dateResolved,
         reimbursement.resolver, reimbursement.status, reimbursement.type, reimbursement.description])
         .then((data) => {
@@ -48,9 +47,11 @@ export async function patchCoalesce(patch: Reimbursement) {
     const result = await db.query(`UPDATE "Reimbursement" SET author = COALESCE($1, author), \
 amount = COALESCE($2, amount), \ date_submitted = COALESCE($3, date_submitted), \ 
 date_resolved = COALESCE($4, date_resolved), \ resolver = COALESCE($5, resolver), \ 
-status = COALESCE($6, status) \ type = COALESCE($7, type) WHERE reimbursementid = COALESCE $8
-\ RETURNING author, amount, date_submitted, date_resolved, resolver, status, type, reimbursementid;`,
-[patch.author, patch.amount, patch.dateSubmitted, patch.dateResolved, patch.resolver, patch.status, patch.type, patch.reimbursementId]);
+status = COALESCE($6, status), \ type = COALESCE($7, type), \ description = COALESCE($8, description)
+WHERE reimbursementid = $9
+\ RETURNING author, amount, date_submitted, date_resolved, resolver, status, type, description, reimbursementid;`,
+[patch.author, patch.amount, patch.dateSubmitted, patch.dateResolved, patch.resolver, patch.status, patch.type, patch.description,
+patch.reimbursementId]);
 
     if (result.rowCount === 0) {
         // throw error, 404 

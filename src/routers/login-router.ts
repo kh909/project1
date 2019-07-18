@@ -20,7 +20,7 @@ try {
     if (user.username && user.password) {
        // if (user.role === 1) {
             const token =jwt.sign({
-                userId:user.userId,
+                userid: user.userId,
                 role: user.role},
             
                 "secretkey", // << this is the secret key

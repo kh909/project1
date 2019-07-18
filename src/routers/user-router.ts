@@ -11,16 +11,37 @@ userRouter.get('/:id',
     async (request: Request, response: Response) => {
         //retrieves id number
         const id = parseInt(request.params.id);
+        const testToken = request.token.role;
+        const userToken = request.token.userId;
+        
+        try {
+        if (testToken == 1 || (testToken == 3 ||  userToken == id) || testToken == 2) {
+        
 
         const user = await userService.getUserById(id);
-
-            if (user) {
+            //if user is and admin or if the id matches the current user
+            if ((user) && (testToken == 1) ||(testToken == id)) {
                 response.status(200).json(user);
+              //console.log(testToken);
+              //  console.log(user);
+              //console.log(id);
             } else {
-                response.sendStatus(404);
+                response.sendStatus(401);
             }
 
+    } else {
+        response.status(401).json({message: 'You are not authorized for this operation'});
+        console.log(testToken);
+        console.log(userToken);
+    } 
+    
+    
+    }   
+    catch {
+        console.error('Invalid Token');
+    }
     });
+
 
 //get /users
 userRouter.get('',
@@ -31,8 +52,8 @@ async (request: any, response: Response) => {
 
         // outputs the role number
         // console.log(testToken);
-//if user is admin
-   if (testToken == 1) {
+//if user is admin or finance manager
+   if (testToken == 1 || testToken == 2) {
         const user = await userService.getUser();
 
         if (user) {
