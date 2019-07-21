@@ -18,7 +18,7 @@ userRouter.get('/:id',
         
 
         const user = await userService.getUserById(id);
-            //if user is and admin, financial manager, or if the id matches the current user
+            //if user is and admin, financial or if the id matches the current user
             if ((user) && (testToken == 1) || (testToken == id) || (testToken == 2)) {
                 response.status(200).json(user);
               //console.log(testToken);
@@ -74,9 +74,9 @@ userRouter.patch('',
         const patch: User = request.body;
         //store the role
         let testToken = request.token.role;
-        
+
         //if user is admin
-             if(( testToken == 1) || (testToken == 2)){
+             if( testToken == 1){
                  const patchedUser: User = await userService.patchCoalesce(patch);
                  if (patchedUser.userId) {
                     response.json(patchedUser);
