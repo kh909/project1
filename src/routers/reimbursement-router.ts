@@ -31,7 +31,7 @@ reimbursementRouter.get('/author/userId/:id',
 
         const reimbursement = await reimbursementService.getReimbursementByAuthorId(id);
 
-            if ((reimbursement) && (testToken == 1) || (testToken == 2)) {
+            if ((reimbursement) && (testToken == 1) || (testToken == 2) || (testToken == id)) {
                 response.status(200).json(reimbursement);
             } else {
                 response.sendStatus(401);
@@ -91,8 +91,8 @@ reimbursementRouter.patch('',
         //store the role
         let testToken = request.token.role;
     
-        //if user is admin
-             if( testToken == 1) {
+        //if user is admin or financial manager
+             if(( testToken == 1) || (testToken == 2)){
                  const patchedReimbursement: Reimbursement = await reimbursementService.patchCoalesce(patch);
                  if (patchedReimbursement.reimbursementId) {
                     response.json(patchedReimbursement);
